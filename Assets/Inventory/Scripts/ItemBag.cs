@@ -8,7 +8,7 @@ namespace FlMr_Inventory
     /// インベントリをコントロールするクラス。
     /// 複数のアイテムスロットを保持し、アイテムの出入りを行う。
     /// </summary>
-    public class ItemBag : MonoBehaviour
+    public abstract class ItemBag : MonoBehaviour
     {
         /// <summary>
         /// 初期のスロット数
@@ -34,13 +34,7 @@ namespace FlMr_Inventory
         /// スロットメニューに機能を追加するメソッド
         /// </summary>
         /// <param name="funcs"></param>
-        private void AddMenuFunction(ItemSlotMenuFunctions funcs)
-        {
-            // 削除ボタンを追加
-            funcs.AddMenuItem("Delete", (item) => RemoveItem(item.UniqueId, 1));
-            //追加ボタン
-            funcs.AddMenuItem("Add", (item) => AddItem(item.UniqueId, 1));
-        }
+        protected abstract void AddMenuFunction(ItemSlotMenuFunctions funcs);
 
         void Awake()
         {

@@ -24,7 +24,7 @@ namespace FlMr_Inventory
         /// </summary>
         internal void Initialize(ItemBase slotItem, ItemSlotMenuFunctions menuMethods)
         {
-            foreach (var menu in menuMethods.MenuItems)
+            foreach (var menu in menuMethods.GetMenus(slotItem))
             {
                 // ボタンプレハブをインスタンス化
                 var buttonObj = Instantiate(menuButtonPrefab, this.transform);
