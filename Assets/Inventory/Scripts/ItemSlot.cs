@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,19 +67,36 @@ namespace FlMr_Inventory
             }
         }
 
-        /// <summary>
-        /// スロットがクリックされたときに呼ばれるメソッド
-        /// </summary>
         public void OnClicked()
         {
-            //このスロットにアイテムが存在している場合
+            // このスロットにアイテムが存在している場合
             if (Item != null)
             {
                 // メニューを表示する
                 var menuObj = Instantiate(menuLayoutPrefab, menuLayoutTrn);
+                menuObj.GetComponent<ItemSlotMenu>()
+                    .Initialize(() => RemoveItemMethod(Item.UniqueId, 1));
+
                 menuObj.transform.SetParent(GetComponentInParent<Canvas>().transform, true);
             }
         }
+
+        /// <summary>
+        /// アイテムを削除するメソッド
+        /// (ItemSlotMenuクラスに渡す)
+        /// </summary>
+        private Func<int, int, bool> RemoveItemMethod { get; set; }
+
+        /// <summary>
+        /// ItemSlotMenuに表示する項目を設定する
+        /// </summary>
+        /// <param name="deleteMethod"></param>
+        internal void Initialize(Func<int, int, bool> removeItemMethod)
+        {
+            RemoveItemMethod = removeItemMethod;
+        }
+
+
     }
 
 }
