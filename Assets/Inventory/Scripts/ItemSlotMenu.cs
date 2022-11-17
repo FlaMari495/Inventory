@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace FlMr_Inventory
@@ -19,27 +22,53 @@ namespace FlMr_Inventory
         /// <summary>
         /// メニューにボタンを配置する
         /// </summary>
-        internal void Initialize(UnityAction removeItemMethod)
+        internal void Initialize(ItemBase slotItem, ItemSlotMenuFunctions menuMethods)
         {
-            // ボタンプレハブをインスタンス化
-            var buttonObj = Instantiate(menuButtonPrefab, this.transform);
+            foreach (var menu in menuMethods.MenuItems)
+            {
+                // ボタンプレハブをインスタンス化
+                var buttonObj = Instantiate(menuButtonPrefab, this.transform);
 
-            // ボタンに表示するテキストを変更
-            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = "Delete";
+                // ボタンに表示するテキストを変更
+                buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = menu.menuName;
 
-            // ボタンコンポーネントの取得
-            Button button = buttonObj.GetComponent<Button>();
+                // ボタンコンポーネントの取得
+                Button button = buttonObj.GetComponent<Button>();
 
-            // ボタンが押された際の挙動を設定
-            button.onClick.AddListener(removeItemMethod);
+                // ボタンが押された際の挙動を設定
+                button.onClick.AddListener(() =>
+                {
+                    menu.function(slotItem);
+                    Destroy(this.gameObject);
+                });
+            }
         }
 
         /// <summary>
-        /// テスト用メソッド(後に削除する)
+        /// 毎フレーム呼ばれるメソッド
         /// </summary>
-        private void Test()
+        private void Update()
         {
-            Debug.Log("Hello World");
+            if (Input.GetMouseButtonDown(0))
+            {
+                // クリックが検出されたとき
+
+                // マウスイベントの生成
+                var eventData = new PointerEventData(EventSystem.current)
+                { position = Input.mousePosition };
+
+                // この変数にRayを飛ばした結果が代入される
+                var result = new List<RaycastResult>();
+
+                // Rayを飛ばす
+                EventSystem.current.RaycastAll(eventData, result);
+
+                if (!result.Any(r => r.gameObject == this.gameObject))
+                {
+                    // カーソル位置にメニューが存在しなかった場合はメニューを閉じる
+                    Destroy(this.gameObject);
+                }
+            }
         }
 
     }

@@ -30,15 +30,32 @@ namespace FlMr_Inventory
         /// </summary>
         private ItemBagData Data { get; set; } = new();
 
+        /// <summary>
+        /// スロットメニューに機能を追加するメソッド
+        /// </summary>
+        /// <param name="funcs"></param>
+        private void AddMenuFunction(ItemSlotMenuFunctions funcs)
+        {
+            // 削除ボタンを追加
+            funcs.AddMenuItem("Delete", (item) => RemoveItem(item.UniqueId, 1));
+            //追加ボタン
+            funcs.AddMenuItem("Add", (item) => AddItem(item.UniqueId, 1));
+        }
+
         void Awake()
         {
+            // スロットがクリックされた際に表示するメニューの内容を決める
+            ItemSlotMenuFunctions funcs = new ItemSlotMenuFunctions();
+
+            AddMenuFunction(funcs);
+
             for (int i = 0; i < slotNumber; i++)
             {
                 //slotNumber の数だけスロットを生成し、ItemBagの子オブジェクトとして配置する
                 var slot = Instantiate(slotPrefab, this.transform, false);
 
                 ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
-                itemSlot.Initialize(RemoveItem);
+                itemSlot.Initialize(funcs);
                 AllSlots.Add(itemSlot);
             }
 

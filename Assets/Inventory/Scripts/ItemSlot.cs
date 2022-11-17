@@ -74,8 +74,7 @@ namespace FlMr_Inventory
             {
                 // メニューを表示する
                 var menuObj = Instantiate(menuLayoutPrefab, menuLayoutTrn);
-                menuObj.GetComponent<ItemSlotMenu>()
-                    .Initialize(() => RemoveItemMethod(Item.UniqueId, 1));
+                menuObj.GetComponent<ItemSlotMenu>().Initialize(Item, MenuFunctions);
 
                 menuObj.transform.SetParent(GetComponentInParent<Canvas>().transform, true);
             }
@@ -88,12 +87,18 @@ namespace FlMr_Inventory
         private Func<int, int, bool> RemoveItemMethod { get; set; }
 
         /// <summary>
+        /// クリックされたときに表示するメニュー
+        /// (ItemSlotMenuクラスに渡す)
+        /// </summary>
+        private ItemSlotMenuFunctions MenuFunctions { get; set; }
+
+        /// <summary>
         /// ItemSlotMenuに表示する項目を設定する
         /// </summary>
-        /// <param name="deleteMethod"></param>
-        internal void Initialize(Func<int, int, bool> removeItemMethod)
+        /// <param name="menuFunctions"></param>
+        internal void Initialize(ItemSlotMenuFunctions menuFunctions)
         {
-            RemoveItemMethod = removeItemMethod;
+            MenuFunctions = menuFunctions;
         }
 
 
