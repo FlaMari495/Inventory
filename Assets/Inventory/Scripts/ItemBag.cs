@@ -36,7 +36,10 @@ namespace FlMr_Inventory
             {
                 //slotNumber の数だけスロットを生成し、ItemBagの子オブジェクトとして配置する
                 var slot = Instantiate(slotPrefab, this.transform, false);
-                AllSlots.Add(slot.GetComponent<ItemSlot>());
+
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                itemSlot.Initialize(RemoveItem);
+                AllSlots.Add(itemSlot);
             }
 
             UpdateItem();
