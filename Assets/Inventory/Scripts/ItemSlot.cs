@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,22 @@ namespace FlMr_Inventory
         /// 所持しているアイテムのアイコンを表示する
         /// </summary>
         [SerializeField] private Image icon;
+
+
+        /// <summary>
+        /// このスロットに入っているアイテムの個数を表示するテキスト
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI numberText;
+
+        /// <summary>
+        /// スロットがクリックされた際に表示するメニュー
+        /// </summary>
+        [SerializeField] private GameObject menuLayoutPrefab;
+
+        /// <summary>
+        /// メニューの表示位置
+        /// </summary>
+        [SerializeField] private Transform menuLayoutTrn;
 
         /// <summary>
         /// このスロットに入っているアイテム
@@ -34,6 +51,9 @@ namespace FlMr_Inventory
                 Item = item;
                 icon.sprite = item.Icon;
                 icon.color = Color.white;
+
+                numberText.gameObject.SetActive(number > 1);
+                numberText.text = number.ToString();
             }
             else
             {
@@ -41,6 +61,22 @@ namespace FlMr_Inventory
                 Item = null;
                 icon.sprite = null;
                 icon.color = new Color(0, 0, 0, 0);
+
+                numberText.gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// スロットがクリックされたときに呼ばれるメソッド
+        /// </summary>
+        public void OnClicked()
+        {
+            //このスロットにアイテムが存在している場合
+            if (Item != null)
+            {
+                // メニューを表示する
+                var menuObj = Instantiate(menuLayoutPrefab, menuLayoutTrn);
+                menuObj.transform.SetParent(GetComponentInParent<Canvas>().transform, true);
             }
         }
     }
