@@ -23,7 +23,7 @@ namespace FlMr_Inventory
         /// <summary>
         /// 全てのスロットオブジェクト
         /// </summary>
-        private List<GameObject> AllSlots { get; } = new();
+        private List<ItemSlot> AllSlots { get; } = new();
 
         /// <summary>
         /// 現在所持しているアイテムの情報
@@ -36,9 +36,38 @@ namespace FlMr_Inventory
             {
                 //slotNumber の数だけスロットを生成し、ItemBagの子オブジェクトとして配置する
                 var slot = Instantiate(slotPrefab, this.transform, false);
-                AllSlots.Add(slot);
+                AllSlots.Add(slot.GetComponent<ItemSlot>());
             }
 
+            UpdateItem();
+        }
+
+        /// <summary>
+        /// スロットの表示と所持アイテムの情報を一致させる
+        /// </summary>
+        private void UpdateItem()
+        {
+            // プロジェクトに存在する全アイテム
+            ItemBase[] allItems = Resources.LoadAll<ItemBase>("");
+
+            for (int i = 0; i < Data.Ids.Count; i++)
+            {
+                // 追加したいアイテムのid
+                int itemId = Data.Ids[i];
+
+                // 全アイテムからitemIdをもつアイテムを検索する
+                // ※ 後に修正
+                ItemBase addingItem = Array.Find(allItems, item => item.UniqueId == itemId);
+
+                // アイテムを表示
+                AllSlots[i].UpdateItem(addingItem, Data.Qty[i]);
+            }
+
+            for (int i = Data.Ids.Count; i < slotNumber; i++)
+            {
+                // 残りは空
+                AllSlots[i].UpdateItem(null, -1);
+            }
         }
 
         /// <summary>
@@ -57,6 +86,8 @@ namespace FlMr_Inventory
 
             // アイテムをバッグに追加する
             Data.Add(itemId, number);
+
+            UpdateItem();
             return true;
         }
 

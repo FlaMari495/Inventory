@@ -11,12 +11,7 @@ namespace FlMr_Inventory.Demo
 
         void Start()
         {
-            // 10種類が限界であるカバンに、15種類のアイテムを追加する
-            for (int i = 0; i < 15; i++)
-            {
-                //追加に成功したか否かを表示
-                Debug.Log(i + "番目のアイテム:" + bag.AddItem(i, 3));
-            }
+            Debug.Log(1 + "番目のアイテム:" + bag.AddItem(1, 1));
 
             //カバンに入っているアイテムのデータを表示
             Debug.Log(bag.ToJson());
