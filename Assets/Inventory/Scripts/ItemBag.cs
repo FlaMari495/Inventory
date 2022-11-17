@@ -42,22 +42,19 @@ namespace FlMr_Inventory
             UpdateItem();
         }
 
+
         /// <summary>
         /// スロットの表示と所持アイテムの情報を一致させる
         /// </summary>
         private void UpdateItem()
         {
-            // プロジェクトに存在する全アイテム
-            ItemBase[] allItems = Resources.LoadAll<ItemBase>("");
-
             for (int i = 0; i < Data.Ids.Count; i++)
             {
                 // 追加したいアイテムのid
                 int itemId = Data.Ids[i];
 
                 // 全アイテムからitemIdをもつアイテムを検索する
-                // ※ 後に修正
-                ItemBase addingItem = Array.Find(allItems, item => item.UniqueId == itemId);
+                ItemBase addingItem = ItemUtility.Instance.ItemIdTable[itemId];
 
                 // アイテムを表示
                 AllSlots[i].UpdateItem(addingItem, Data.Qty[i]);
@@ -89,6 +86,32 @@ namespace FlMr_Inventory
 
             UpdateItem();
             return true;
+        }
+
+        /// <summary>
+        /// アイテムを削除する
+        /// </summary>
+        /// <param name="itemId">削除するアイテムのId</param>
+        /// <param name="number">削除する個数</param>
+        /// <returns></returns>
+        public bool RemoveItem(int itemId, int number)
+        {
+            // 十分な数を所持しているか
+            bool haveEnough = Data.GetQty(itemId) >= number;
+
+            if (haveEnough)
+            {
+                // 十分持っている場合
+                Data.Remove(itemId, number);
+
+                UpdateItem();
+                return true;
+            }
+            else
+            {
+                //不足している場合
+                return false;
+            }
         }
 
 
@@ -175,6 +198,17 @@ namespace FlMr_Inventory
                         }
                     }
                 }
+            }
+
+            /// <summary>
+            /// 特定のアイテムをいくつ所持しているか
+            /// </summary>
+            /// <param name="id">アイテムid</param>
+            /// <returns>所持数</returns>
+            public int GetQty(int id)
+            {
+                int index = Ids.IndexOf(id);
+                return index < 0 ? 0 : Qty[index];
             }
         }
 
