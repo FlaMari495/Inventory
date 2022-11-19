@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6434adc8d6e918349b5438e5e7cd4e23, type: 3}
   m_Name: Arrow
   m_EditorClassIdentifier: 
-  uniqueId: 0
-  itemName: 
-  icon: {fileID: 0}
-  description: 
-  atk: 0
+  uniqueId: 2
+  itemName: "\u5F13\u77E2"
+  icon: {fileID: -49045517, guid: 97890aa250b618441ab8a790327d9c0d, type: 3}
+  description: "\u653B\u6483\u529B+10"
+  atk: 50
   df: 0
