@@ -1,6 +1,7 @@
 using FlMr_Inventory.Demo;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FlMr_Inventory
@@ -132,6 +133,45 @@ namespace FlMr_Inventory
         /// </summary>
         /// <returns></returns>
         public string ToJson() => JsonUtility.ToJson(Data);
+
+        /// <summary>
+        /// バッグ内の全てのアイテムとその個数を取得する
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<ItemBase, int> GetAllItems()
+        {
+            return Data.Ids
+                .ToDictionary(id => ItemUtility.Instance.ItemIdTable[id], id=>Data.GetQty(id));
+
+            /***** Linqを使わない記述 ******
+            Dictionary<ItemBase, int> result = new Dictionary<ItemBase, int>();
+            foreach (var id in Data.Ids)
+            {
+                ItemBase item = ItemUtility.Instance.ItemIdTable[id];
+                result.Add(item,Data.GetQty(id));
+            }
+            return result;
+            *****************************/
+
+        }
+
+        /// <summary>
+        /// idを指定して個数を取得
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int Find(int id)
+        {
+            return Data.GetQty(id);
+        }
+
+        /// <summary>
+        /// アイテムを指定して個数を取得
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public int Find(ItemBase item) => Find(item.UniqueId);
+
 
 
         /// <summary>
