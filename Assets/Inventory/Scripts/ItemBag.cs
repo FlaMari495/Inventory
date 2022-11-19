@@ -1,3 +1,4 @@
+using FlMr_Inventory.Demo;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace FlMr_Inventory
     /// インベントリをコントロールするクラス。
     /// 複数のアイテムスロットを保持し、アイテムの出入りを行う。
     /// </summary>
-    public abstract class ItemBag : MonoBehaviour
+    public class ItemBag : MonoBehaviour
     {
         /// <summary>
         /// 初期のスロット数
@@ -31,26 +32,23 @@ namespace FlMr_Inventory
         private ItemBagData Data { get; set; } = new();
 
         /// <summary>
-        /// スロットメニューに機能を追加するメソッド
+        /// [ Temp ]
+        /// アイテム情報の表示
         /// </summary>
-        /// <param name="funcs"></param>
-        protected abstract void AddMenuFunction(ItemSlotMenuFunctions funcs);
+        [SerializeField] private ItemDetail itemDetail_Temp;
 
         void Awake()
         {
-            // スロットがクリックされた際に表示するメニューの内容を決める
-            ItemSlotMenuFunctions funcs = new ItemSlotMenuFunctions();
-
-            AddMenuFunction(funcs);
-
             for (int i = 0; i < slotNumber; i++)
             {
                 //slotNumber の数だけスロットを生成し、ItemBagの子オブジェクトとして配置する
-                var slot = Instantiate(slotPrefab, this.transform, false);
+                var slot = Instantiate(slotPrefab, this.transform, false)
+                    .GetComponent<ItemSlot>();
 
-                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
-                itemSlot.Initialize(funcs);
-                AllSlots.Add(itemSlot);
+                // ItemSlotの初期化
+                slot.Initialize(itemDetail_Temp.Show);
+
+                AllSlots.Add(slot);
             }
 
             UpdateItem();

@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6540da782204d02418c995fd20adf69b, type: 3}
-  m_Name: Arrow
+  m_Script: {fileID: 11500000, guid: 342b6301ca020b249a8c56f3d30d62b5, type: 3}
+  m_Name: ItemUtility
   m_EditorClassIdentifier: 
-  uniqueId: 2
-  itemName: "\u5F13\u77E2"
-  icon: {fileID: -49045517, guid: 97890aa250b618441ab8a790327d9c0d, type: 3}
-  description: "\u653B\u6483\u529B+10"
-  atk: 10
-  df: 0
+  allItems:
+  - {fileID: 11400000, guid: 7e3805fbe12d7a848bdb7cabd8b9c525, type: 2}

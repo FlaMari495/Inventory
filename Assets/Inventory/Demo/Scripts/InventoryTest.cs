@@ -11,9 +11,8 @@ namespace FlMr_Inventory.Demo
 
         void Start()
         {
+            // id1‚ÌƒAƒCƒeƒ€‚ð2‚Â’Ç‰Á
             bag.AddItem(1, 2);
-            bag.AddItem(2, 2);
-            bag.AddItem(3, 2);
         }
 
     }

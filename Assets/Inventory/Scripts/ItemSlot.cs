@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace FlMr_Inventory
@@ -18,6 +19,11 @@ namespace FlMr_Inventory
         /// </summary>
         [SerializeField] private Image icon;
 
+        /// <summary>
+        /// このスロットに入っているアイテム
+        /// </summary>
+        internal ItemBase Item { get; private set; }
+
 
         /// <summary>
         /// このスロットに入っているアイテムの個数を表示するテキスト
@@ -25,19 +31,27 @@ namespace FlMr_Inventory
         [SerializeField] private TextMeshProUGUI numberText;
 
         /// <summary>
-        /// スロットがクリックされた際に表示するメニュー
+        /// 数量
         /// </summary>
-        [SerializeField] private GameObject menuLayoutPrefab;
+        private int Number { get; set; }
 
         /// <summary>
-        /// メニューの表示位置
+        /// スロットがクリックされた際に実行するメソッド
+        /// [ 引数 ]
+        /// ItemBase : スロットに入っているアイテム
+        /// int : アイテムの個数
+        /// GameObject : このスロットのオブジェクト
         /// </summary>
-        [SerializeField] private Transform menuLayoutTrn;
+        private Action<ItemBase,int,GameObject> OnClickCallback { get; set; }
 
         /// <summary>
-        /// このスロットに入っているアイテム
+        /// このクラスのインスタンスが生成された際に呼ぶメソッド
         /// </summary>
-        internal ItemBase Item { get; private set; }
+        /// <param name="onClickCallback"></param>
+        internal void Initialize(Action<ItemBase, int, GameObject> onClickCallback)
+        {
+            OnClickCallback = onClickCallback;
+        }
 
         /// <summary>
         /// アイテムのアイコンを表示する
@@ -50,9 +64,13 @@ namespace FlMr_Inventory
             {
                 // アイテムが空ではない場合
                 Item = item;
+                Number = number;
+
+                // アイコンの表示
                 icon.sprite = item.Icon;
                 icon.color = Color.white;
 
+                // 数量の表示
                 numberText.gameObject.SetActive(number > 1);
                 numberText.text = number.ToString();
             }
@@ -60,6 +78,7 @@ namespace FlMr_Inventory
             {
                 // アイテムが空である場合
                 Item = null;
+                Number = 0;
                 icon.sprite = null;
                 icon.color = new Color(0, 0, 0, 0);
 
@@ -67,41 +86,18 @@ namespace FlMr_Inventory
             }
         }
 
+        /// <summary>
+        /// スロットがクリックされたときに呼ばれるメソッド
+        /// </summary>
         public void OnClicked()
         {
-            // このスロットにアイテムが存在している場合
+            //このスロットにアイテムが存在している場合
             if (Item != null)
             {
-                // メニューを表示する
-                var menuObj = Instantiate(menuLayoutPrefab, menuLayoutTrn);
-                menuObj.GetComponent<ItemSlotMenu>().Initialize(Item, MenuFunctions);
-
-                menuObj.transform.SetParent(GetComponentInParent<Canvas>().transform, true);
+                // コールバックメソッドを実行
+                OnClickCallback(Item, Number, this.gameObject);
             }
         }
-
-        /// <summary>
-        /// アイテムを削除するメソッド
-        /// (ItemSlotMenuクラスに渡す)
-        /// </summary>
-        private Func<int, int, bool> RemoveItemMethod { get; set; }
-
-        /// <summary>
-        /// クリックされたときに表示するメニュー
-        /// (ItemSlotMenuクラスに渡す)
-        /// </summary>
-        private ItemSlotMenuFunctions MenuFunctions { get; set; }
-
-        /// <summary>
-        /// ItemSlotMenuに表示する項目を設定する
-        /// </summary>
-        /// <param name="menuFunctions"></param>
-        internal void Initialize(ItemSlotMenuFunctions menuFunctions)
-        {
-            MenuFunctions = menuFunctions;
-        }
-
-
     }
 
 }
