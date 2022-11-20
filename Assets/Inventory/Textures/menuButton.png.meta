@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -161,13 +161,13 @@ TextureImporter:
         height: 121
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 72, y: 0, z: 76, w: 0}
+      border: {x: 65, y: 0, z: 65, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94cd8cf898b98824eb52f34c8b561e9d
-      internalID: 43512882
+      spriteID: a4d1657581e32e24984b152e25b96e43
+      internalID: 538738701
       vertices: []
       indices: 
       edges: []
@@ -175,7 +175,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: c4ca6534c34e95647a7c2976c55240b8
+    spriteID: 887c4e976494a994da81c45a98d280c5
     internalID: 0
     vertices: []
     indices: 
@@ -183,7 +183,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      menuButton_0: 43512882
+      menuButton_0: 538738701
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

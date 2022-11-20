@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace FlMr_Inventory
@@ -20,12 +19,6 @@ namespace FlMr_Inventory
         [SerializeField] private Image icon;
 
         /// <summary>
-        /// このスロットに入っているアイテム
-        /// </summary>
-        internal ItemBase Item { get; private set; }
-
-
-        /// <summary>
         /// このスロットに入っているアイテムの個数を表示するテキスト
         /// </summary>
         [SerializeField] private TextMeshProUGUI numberText;
@@ -36,13 +29,18 @@ namespace FlMr_Inventory
         private int Number { get; set; }
 
         /// <summary>
+        /// このスロットに入っているアイテム
+        /// </summary>
+        internal ItemBase Item { get; private set; }
+
+        /// <summary>
         /// スロットがクリックされた際に実行するメソッド
         /// [ 引数 ]
         /// ItemBase : スロットに入っているアイテム
         /// int : アイテムの個数
         /// GameObject : このスロットのオブジェクト
         /// </summary>
-        private Action<ItemBase,int,GameObject> OnClickCallback { get; set; }
+        private Action<ItemBase, int, GameObject> OnClickCallback { get; set; }
 
         /// <summary>
         /// このクラスのインスタンスが生成された際に呼ぶメソッド
