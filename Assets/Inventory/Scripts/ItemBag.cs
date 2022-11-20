@@ -21,6 +21,11 @@ namespace FlMr_Inventory
         [SerializeField] private GameObject slotPrefab;
 
         /// <summary>
+        /// スロットがクリックされた際の挙動
+        /// </summary>
+        [SerializeField] private ItemDetailBase itemDetail;
+
+        /// <summary>
         /// 全てのスロットオブジェクト
         /// </summary>
         private List<ItemSlot> AllSlots { get; } = new();
@@ -39,7 +44,10 @@ namespace FlMr_Inventory
                     .GetComponent<ItemSlot>();
 
                 // ItemSlotの初期化
-                slot.Initialize((item, number, slotObj) => Debug.Log("クリックされました"));
+                slot.Initialize(
+                    // スロットがクリックされた際に呼ばれる関数
+                    (item, number, slotObj) => itemDetail.OnClickCallback(this,item,number,slotObj)
+                );
 
                 AllSlots.Add(slot);
             }
