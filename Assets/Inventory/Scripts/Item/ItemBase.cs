@@ -2,8 +2,7 @@ using UnityEngine;
 
 namespace FlMr_Inventory
 {
-    [CreateAssetMenu(menuName = "Item/ItemTemp", fileName = "itemTemp")]
-    public class ItemBase : ScriptableObject
+    public abstract class ItemBase : ScriptableObject
     {
         [SerializeField] private int uniqueId;
         [SerializeField] private string itemName;
