@@ -1,0 +1,13 @@
+{
+    "name": "com.flmr.inventory",
+    "version": "1.0.0",
+    "displayName": "Original Inventory System",
+    "description": "original inventory system",
+    "unity": "2021.3",
+    "dependencies": {},
+    "license": "MIT",
+    "author": {
+      "name": "flamari",
+      "email": "mirochacha_u_u_1106@yahoo.co.jp"
+    }
+}
